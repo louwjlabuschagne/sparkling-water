@@ -168,7 +168,7 @@ List of all Frequently Asked Questions is available at `FAQ <doc/FAQ.rst>`__.
 Development
 -----------
 
-Complete development documentation is available at `Development Documentation <DEVEL.rst>`__
+Complete development documentation is available at `Development Documentation <DEVEL.md>`__.
 
 Build Sparkling Water
 ~~~~~~~~~~~~~~~~~~~~~
