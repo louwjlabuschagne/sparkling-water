@@ -18,7 +18,7 @@
   - [Configuration](#Config)
     - [Build Environment](#BuildEnv)
     - [Run Environment](#RunEnv)
-    - [Sparkling Water Configuration Properties](#Properties)
+    - [Sparkling Water Configuration Properties](doc/configuration_properties.rst)
 - [Running Sparkling Water](#RunSW)
   - [Starting H2O Services](#StartH2O)
   - [Memory Allocation](#MemorySetup)
@@ -45,7 +45,7 @@
   - [Usage in Scala](#DataSourceScala)
   - [Specifying Saving Mode](#SavingMode)
 - [Sparkling Water Tuning](#SparklingWaterTuning) 
-- [Sparkling Water and Zeppelin](#SparklingWaterZeppelin)
+- [Sparkling Water and Zeppelin](doc/zeppelin.rst)
 
 --- 
  
@@ -210,11 +210,6 @@ The environment must contain the property `SPARK_HOME` that points to the Spark 
 The environment must contain the property `SPARK_HOME` that points to the Spark distribution.
 
 ---
-
-<a name="Properties"></a>
-### Sparkling Water Configuration Properties
-
-All available Sparkling Water configuration properties are listed at [Sparkling Water Properties](doc/configuration_properties.rst).
 
 <a name="RunSW"></a>
 # Running Sparkling Water
@@ -860,42 +855,3 @@ Furthermore, we recommend to configure the following Spark properties to speedup
 | `spark.yarn.....memoryOverhead` | yarn | increase | Increase memoryOverhead if it is necessary. |
 | `spark.yarn.max.executor.failures` | yarn | `1` | Do not try restart executors after failure and directly fail computation. |
 | `spark.executor.heartbeatInterval` | all | `10s` | Interval between each executor's heartbeats to the driver. This property should be significantly less than spark.network.timeout. |
-
-<a name='SparklingWaterZeppelin'></a>
-## Sparkling Water and Zeppelin
-Since Sparkling Water exposes Scala API, it is possible to access it directly from the Zeppelin's notebook cell marked by `%spark` tag.
-
-### Launch Zeppelin with Sparkling Water
-Using Sparkling Water from Zeppelin is easy since Sparkling Water is distributed as a Spark package.
-In this case, before launching Zeppelin addition shell variable is needed:
-
-```bash
-export SPARK_HOME=...# Spark 2.0 home
-export SPARK_SUBMIT_OPTIONS="--packages ai.h2o:sparkling-water-examples_2.11:2.0.0"
-bin/zeppelin.sh -Pspark-2.0
-```
-
-The command is using Spark 2.0 version and corresponding Sparkling Water package.
-
-### Using Zeppelin
-The use of Sparkling Water package is directly driven by Sparkling Water API. For example, getting `H2OContext` is straightforward:
-
-```scala
-%spark
-import org.apache.spark.h2o._
-val hc = H2OContext.getOrCreate(sc)
-```
-
-Creating `H2OFrame` from Spark `DataFrame`:
-```scala
-%spark
-val df = sc.parallelize(1 to 1000).toDF
-val hf = hc.asH2OFrame(df)
-```
-
-Creating Spark `DataFrame` from `H2OFrame`:
-```scala
-%spark
-val df = hc.asDataFrame(hf)
-```
-
